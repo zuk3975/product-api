@@ -16,5 +16,10 @@ services:
     App\:
         resource: '../src/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Seed\ProductSeeder:
+        arguments:
+            $productsSeedFilePath: '%kernel.project_dir%/products.json'
+
+    App\Seed\DiscountSeeder:
+        arguments:
+            $discountsSeedFilePath: '%kernel.project_dir%/discounts.json'

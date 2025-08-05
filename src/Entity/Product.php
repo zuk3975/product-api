@@ -20,17 +20,18 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $sku = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $category = null;
-
     #[ORM\Column]
     private ?int $price = null;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    private Category $category;
+
 
     public function getId(): ?int
     {
@@ -61,12 +62,12 @@ class Product
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(string $category): static
+    public function setCategory(Category $category): static
     {
         $this->category = $category;
 
