@@ -1,0 +1,12 @@
+{
+  "discounts": [
+    {
+      "sku": "000003",
+      "percent": 15
+    },
+    {
+      "category": "boots",
+      "percent": 30
+    }
+  ]
+}

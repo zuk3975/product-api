@@ -16,7 +16,7 @@ use PHPUnit\Framework\Assert;
  *
  * @see http://behat.org/en/latest/quick_start.html
  */
-final class ProductSeedContext implements Context
+final class ProductContext implements Context
 {
     public function __construct(
         private readonly ProductSeeder $productSeeder,
@@ -34,8 +34,9 @@ final class ProductSeedContext implements Context
 
     /**
      * @Then the following products should be created in the database:
+     * @Then the following products exists in the database:
      */
-    public function assertProductsCreated(TableNode $table): void
+    public function assertProductsExists(TableNode $table): void
     {
         $allProducts = $this->productRepository->findAll();
         $expected = $table->getHash();
@@ -54,28 +55,6 @@ final class ProductSeedContext implements Context
             if (!$found) {
                 throw new \RuntimeException('Product not found in database: ' . json_encode($row));
             }
-        }
-    }
-
-    /**
-     * @Then the categories should be created if they do not exist
-     */
-    public function theCategoriesShouldBeCreatedIfTheyDoNotExist(): void
-    {
-        // TODO: Add assertions to check database for created categories
-        // This is a placeholder
-        if (false) {
-            throw new \Exception('Categories not found in database');
-        }
-    }
-
-    /**
-     * @Then an error should be thrown indicating no products found
-     */
-    public function anErrorShouldBeThrownIndicatingNoProductsFound(): void
-    {
-        if ($this->seederException === null || strpos($this->seederException->getMessage(), 'No products found') === false) {
-            throw new \Exception('Expected exception for no products found was not thrown');
         }
     }
 }

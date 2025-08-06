@@ -9,3 +9,7 @@ services:
     App\Service\Seed\ProductSeeder:
         arguments:
             $productsSeedFilePath: '%kernel.project_dir%/tests/assets/products.json'
+
+    App\Service\Seed\DiscountSeeder:
+        arguments:
+            $discountsSeedFilePath: '%kernel.project_dir%/tests/assets/discounts.json'
