@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Seed;
+namespace App\Service\Seed;
 
 use App\Entity\Discount;
-use App\Exception\SeedException;
+use App\Exception\BulkOperationException;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +25,7 @@ class DiscountSeeder
         $discounts = json_decode($this->fileSystem->readFile($this->discountsSeedFilePath), true)['discounts'] ?? [];
 
         if (!$discounts) {
-            throw new SeedException(['No discounts found in the seed file']);
+            throw new BulkOperationException(['No discounts found in the seed file']);
         }
 
         foreach ($discounts as $discountData) {
@@ -65,11 +65,11 @@ class DiscountSeeder
     private function validateData(array $discountData): void
     {
         if (!$discountData['percent']) {
-            throw new SeedException(['Discount percent is required']);
+            throw new BulkOperationException(['Discount percent is required']);
         }
 
         if (empty($discountData['sku']) && empty($discountData['category'])) {
-            throw new SeedException(['Either sku or category is required for discount']);
+            throw new BulkOperationException(['Either sku or category is required for discount']);
         }
     }
 }

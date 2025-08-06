@@ -9,11 +9,28 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Product>
  */
-class ProductRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
+    }
+
+    public function save(Product $product): Product
+    {
+        $em = $this->getEntityManager();
+        $em->persist($product);
+        $em->flush();
+
+        return $product;
+    }
+
+    public function findOneBySku(string $sku): ?Product
+    {
+        /** @var Product|null $result */
+        $result = $this->findOneBy(['sku' => $sku]);
+
+        return $result;
     }
 
     //    /**

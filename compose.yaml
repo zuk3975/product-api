@@ -1,5 +1,6 @@
 services:
   php:
+    container_name: product-api-php
     image: ${IMAGES_PREFIX:-}app-php
     restart: unless-stopped
     depends_on:
@@ -53,17 +54,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
 
 volumes:
   caddy_data:
   caddy_config:
   db_data:
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
-
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###

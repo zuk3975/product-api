@@ -9,11 +9,27 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Category>
  */
-class CategoryRepository extends ServiceEntityRepository
+class CategoryRepository extends ServiceEntityRepository implements CategoryRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
+    }
+
+    public function save(Category $category): Category
+    {
+        $this->getEntityManager()->persist($category);
+        $this->getEntityManager()->flush();
+
+        return $category;
+    }
+
+    public function findByNames(array $names): array
+    {
+        /** @var Category[] $categories */
+        $categories = $this->findBy(['name' => $names]);
+
+        return $categories;
     }
 
     //    /**

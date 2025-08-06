@@ -47,9 +47,4 @@ class Category
     {
         return $this->products;
     }
-
-    public function setProducts(Collection $products): void
-    {
-        $this->products = $products;
-    }
 }

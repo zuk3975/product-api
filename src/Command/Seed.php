@@ -2,9 +2,9 @@
 
 namespace App\Command;
 
-use App\Seed\DiscountSeeder;
-use App\Exception\SeedException;
-use App\Seed\ProductSeeder;
+use App\Exception\BulkOperationException;
+use App\Service\Seed\DiscountSeeder;
+use App\Service\Seed\ProductSeeder;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +26,7 @@ class Seed
         try {
             $this->productSeeder->seedProducts();
             $this->discountSeeder->seedDiscounts();
-        } catch (SeedException $e) {
+        } catch (BulkOperationException $e) {
             foreach ($e->getErrors() as $error) {
                 $output->writeln(sprintf('<comment>%s</comment>', $error));
             }

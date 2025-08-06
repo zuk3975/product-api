@@ -16,10 +16,10 @@ services:
     App\:
         resource: '../src/'
 
-    App\Seed\ProductSeeder:
+    App\Service\Seed\ProductSeeder:
         arguments:
-            $productsSeedFilePath: '%kernel.project_dir%/products.json'
+            $productsSeedFilePath: '%kernel.project_dir%/assets/products.json'
 
-    App\Seed\DiscountSeeder:
+    App\Service\Seed\DiscountSeeder:
         arguments:
-            $discountsSeedFilePath: '%kernel.project_dir%/discounts.json'
+            $discountsSeedFilePath: '%kernel.project_dir%/assets/discounts.json'

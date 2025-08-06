@@ -2,7 +2,7 @@
 
 namespace App\Exception;
 
-class SeedException extends AppException
+class BulkOperationException extends AppException
 {
     /**
      * @var string[]
@@ -12,7 +12,7 @@ class SeedException extends AppException
     public function __construct(
         array $errors,
     ) {
-        parent::__construct('Errors occurred while seeding', 0, null);
+        parent::__construct('Errors occurred in bulk operation', 0, null);
         $this->errors = $errors;
     }
 
