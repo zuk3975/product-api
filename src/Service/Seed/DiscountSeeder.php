@@ -54,7 +54,7 @@ class DiscountSeeder
             $discount = new Discount();
             $discount->setTargetType($targetType);
             $discount->setTargetId($targetId);
-            $discount->setPercent($discountData['percent']);
+            $discount->setPercent(abs($discountData['percent']));
 
             $this->entityManager->persist($discount);
         }

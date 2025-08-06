@@ -9,6 +9,7 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use App\Service\Seed\ProductSeeder;
 use PHPUnit\Framework\Assert;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 /**
  * This context class contains the definitions of the steps used by the demo
@@ -21,7 +22,20 @@ final class ProductContext implements Context
     public function __construct(
         private readonly ProductSeeder $productSeeder,
         private readonly ProductRepository $productRepository,
+        private readonly KernelBrowser $client
     ) {
+    }
+
+    /**
+     * @When I get products without filters, limited to 4 I should see the following results:
+     * @param TableNode $table
+     */
+    public function getProducts(TableNode $table): void
+    {
+        $this->client->request('GET', '/api/products');
+        $response = $this->client->getResponse();
+        $data = json_decode($response->getContent(), true);
+        var_dump($data);
     }
 
     /**

@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\DTO\ProductOutput;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource(
     operations: [
         new GetCollection(),
-    ]
+    ],
+    normalizationContext: ['groups' => ['product:read']],
+    output: ProductOutput::class
 )]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product

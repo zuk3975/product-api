@@ -42,7 +42,7 @@ class ProductCreator
             }
 
             $product->setName($productData['name']);
-            $product->setPrice($productData['price']);
+            $product->setPrice(abs($productData['price']));
 
             $category = $categories[$productData['category']] ?? null;
 
