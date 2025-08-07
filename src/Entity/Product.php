@@ -50,7 +50,6 @@ class Product
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     private Category $category;
 
-
     public function getId(): ?int
     {
         return $this->id;

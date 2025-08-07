@@ -11,7 +11,7 @@ class ProductSeeder
 {
     public function __construct(
         private readonly string $productsSeedFilePath,
-        private readonly FileSystem $fileSystem,
+        private readonly Filesystem $fileSystem,
         private readonly ProductCreator $productCreator,
         private readonly CategoryCreator $categoryCreator,
     ) {
@@ -40,6 +40,6 @@ class ProductSeeder
             return;
         }
 
-        $this->categoryCreator->createMany(array_map(fn(string $name) => ['name' => $name], $categoryNames));
+        $this->categoryCreator->createMany(array_map(fn (string $name) => ['name' => $name], $categoryNames));
     }
 }

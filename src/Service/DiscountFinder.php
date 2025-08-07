@@ -8,27 +8,24 @@ use App\Entity\Product;
 class DiscountFinder
 {
     /**
-     * @param Product $product
      * @param Discount[] $discounts array of available discounts to choose from
-     *
-     * @return Discount|null
      */
     public function findBestForProduct(Product $product, array $discounts): ?Discount
     {
         // sort discounts by percent, so the first one found should be the biggest one
-        usort($discounts, function(Discount $a, Discount $b) {
+        usort($discounts, function (Discount $a, Discount $b) {
             return $b->getPercent() <=> $a->getPercent();
         });
 
-        return array_find($discounts, fn(Discount $discount) => $this->isApplicable($discount, $product));
+        return array_find($discounts, fn (Discount $discount) => $this->isApplicable($discount, $product));
     }
 
     private function isApplicable(Discount $discount, Product $product): bool
     {
-        if ($discount->getTargetType() === Discount::TARGET_TYPE_PRODUCT && $discount->getTargetId() === $product->getId()) {
+        if (Discount::TARGET_TYPE_PRODUCT === $discount->getTargetType() && $discount->getTargetId() === $product->getId()) {
             return true;
         }
 
-        return $discount->getTargetType() === Discount::TARGET_TYPE_CATEGORY && $product->getCategory()->getId() === $discount->getTargetId();
+        return Discount::TARGET_TYPE_CATEGORY === $discount->getTargetType() && $product->getCategory()->getId() === $discount->getTargetId();
     }
 }

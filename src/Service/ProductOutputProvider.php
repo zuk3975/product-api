@@ -16,7 +16,7 @@ class ProductOutputProvider implements ProviderInterface
         private readonly ProductRepositoryInterface $productRepository,
         private readonly DiscountRepositoryInterface $discountRepository,
         private readonly ProductOutputBuilder $productOutputBuilder,
-        private readonly DiscountFinder $discountFinder
+        private readonly DiscountFinder $discountFinder,
     ) {
     }
 
@@ -51,7 +51,7 @@ class ProductOutputProvider implements ProviderInterface
         $productOutputs = [];
         foreach ($products as $product) {
             $discount = $this->discountFinder->findBestForProduct($product, $allDiscounts);
-            $productOutputs[]  = $this->productOutputBuilder->build($product, $discount);
+            $productOutputs[] = $this->productOutputBuilder->build($product, $discount);
         }
 
         return $productOutputs;

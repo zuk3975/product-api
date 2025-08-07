@@ -14,6 +14,6 @@ class Price
         #[SerializedName('discount_percentage')]
         public readonly ?string $discountPercentage = null,
         public readonly string $currency = self::DEFAULT_CURRENCY,
-    ){
+    ) {
     }
 }

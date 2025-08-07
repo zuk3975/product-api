@@ -16,5 +16,4 @@ interface ProductRepositoryInterface
      * @return Product[]
      */
     public function findMany(array $filters, ?int $limit = null): array;
-
 }

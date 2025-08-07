@@ -10,7 +10,7 @@ use App\Entity\Product;
 class ProductOutputBuilder
 {
     public function __construct(
-        private readonly DiscountCalculator $discountCalculator
+        private readonly DiscountCalculator $discountCalculator,
     ) {
     }
 
@@ -23,7 +23,7 @@ class ProductOutputBuilder
 
         if ($discount) {
             $finalPrice = $this->discountCalculator->calculateFinalPrice($product->getPrice(), $discount->getPercent());
-            $percent = $discount->getPercent() . '%';
+            $percent = $discount->getPercent().'%';
         }
 
         return new ProductOutput(

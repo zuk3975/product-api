@@ -13,7 +13,7 @@ class DiscountSeeder
 {
     public function __construct(
         private readonly string $discountsSeedFilePath,
-        private readonly FileSystem $fileSystem,
+        private readonly Filesystem $fileSystem,
         private readonly CategoryRepositoryInterface $categoryRepository,
         private readonly ProductRepositoryInterface $productRepository,
         private readonly DiscountRepositoryInterface $discountRepository,

@@ -63,8 +63,6 @@ class ProductCreator
     }
 
     /**
-     * @param array $products
-     *
      * @return array<string, Category>
      */
     private function getCategories(array $products): array

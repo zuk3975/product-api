@@ -9,5 +9,6 @@ class ProductOutput
         public readonly string $name,
         public readonly string $category,
         public readonly Price $price,
-    ) {}
+    ) {
+    }
 }

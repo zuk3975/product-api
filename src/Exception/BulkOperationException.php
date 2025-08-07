@@ -20,6 +20,4 @@ class BulkOperationException extends AppException
     {
         return $this->errors;
     }
-
-
 }

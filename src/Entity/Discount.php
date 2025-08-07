@@ -17,23 +17,21 @@ class Discount
     #[ORM\Column]
     private ?int $id = null;
 
-    //@todo: validation for percent (0-100)
+    // @todo: validation for percent (0-100)
     #[ORM\Column]
     private ?int $percent = null;
 
-    //@todo: validation for target_type (must be either TYPE_PRODUCT or TYPE_CATEGORY)
+    // @todo: validation for target_type (must be either TYPE_PRODUCT or TYPE_CATEGORY)
     #[ORM\Column(length: 255)]
     private ?string $target_type = null;
 
     #[ORM\Column]
     private ?int $target_id = null;
 
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     public function getPercent(): ?int
     {
@@ -73,10 +71,10 @@ class Discount
 
     public function isApplicable(Product $product): bool
     {
-        if ($this->getTargetType() === self::TARGET_TYPE_PRODUCT && $this->getTargetId() === $product->getId()) {
+        if (self::TARGET_TYPE_PRODUCT === $this->getTargetType() && $this->getTargetId() === $product->getId()) {
             return true;
         }
 
-        return $this->getTargetType() === self::TARGET_TYPE_CATEGORY && $product->getCategory()->getId() === $this->getTargetId();
+        return self::TARGET_TYPE_CATEGORY === $this->getTargetType() && $product->getCategory()->getId() === $this->getTargetId();
     }
 }
