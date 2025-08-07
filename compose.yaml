@@ -22,6 +22,7 @@ services:
       - php
 
   database:
+    container_name: database
     image: mysql:8.0
     restart: unless-stopped
     environment:
@@ -34,10 +35,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e 'SELECT 1' $$MYSQL_DATABASE || exit 1"]
 
 volumes:
   db_data:

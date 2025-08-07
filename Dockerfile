@@ -13,10 +13,9 @@ WORKDIR /var/www
 
 # Copy composer files and install dependencies first (for layer caching)
 COPY composer.* symfony.* ./
-RUN composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
-# Copy the rest of the application
 COPY . ./
 
-RUN mkdir -p var/cache var/log \
- && chown -R www-data:www-data var
+RUN composer install --prefer-dist --no-progress --no-scripts
+
+RUN mkdir -p var/cache var/log && chown -R www-data:www-data var
