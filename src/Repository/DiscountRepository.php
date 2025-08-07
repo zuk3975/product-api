@@ -16,6 +16,15 @@ class DiscountRepository extends ServiceEntityRepository implements DiscountRepo
         parent::__construct($registry, Discount::class);
     }
 
+    public function save(Discount $discount): Discount
+    {
+        $em = $this->getEntityManager();
+        $em->persist($discount);
+        $em->flush();
+
+        return $discount;
+    }
+
     public function findAll(): array
     {
         /** @var Discount[] $discounts */

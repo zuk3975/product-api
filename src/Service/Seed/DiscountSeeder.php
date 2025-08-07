@@ -4,9 +4,9 @@ namespace App\Service\Seed;
 
 use App\Entity\Discount;
 use App\Exception\BulkOperationException;
-use App\Repository\CategoryRepository;
-use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategoryRepositoryInterface;
+use App\Repository\DiscountRepositoryInterface;
+use App\Repository\ProductRepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DiscountSeeder
@@ -14,9 +14,9 @@ class DiscountSeeder
     public function __construct(
         private readonly string $discountsSeedFilePath,
         private readonly FileSystem $fileSystem,
-        private readonly CategoryRepository $categoryRepository,
-        private readonly ProductRepository $productRepository,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly CategoryRepositoryInterface $categoryRepository,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly DiscountRepositoryInterface $discountRepository,
     ) {
     }
 
@@ -32,7 +32,7 @@ class DiscountSeeder
             $this->validateData($discountData);
 
             if (!empty($discountData['sku'])) {
-                $targetProduct = $this->productRepository->findOneBy(['sku' => $discountData['sku']]);
+                $targetProduct = $this->productRepository->findOneBySku($discountData['sku']);
 
                 if (!$targetProduct) {
                     return;
@@ -41,7 +41,7 @@ class DiscountSeeder
                 $targetType = Discount::TARGET_TYPE_PRODUCT;
                 $targetId = $targetProduct->getId();
             } else {
-                $targetCategory = $this->categoryRepository->findOneBy(['name' => $discountData['category']]);
+                $targetCategory = $this->categoryRepository->findByNames([$discountData['category']])[0] ?? null;
 
                 if (!$targetCategory) {
                     return;
@@ -56,10 +56,8 @@ class DiscountSeeder
             $discount->setTargetId($targetId);
             $discount->setPercent(abs($discountData['percent']));
 
-            $this->entityManager->persist($discount);
+            $this->discountRepository->save($discount);
         }
-
-        $this->entityManager->flush();
     }
 
     private function validateData(array $discountData): void
