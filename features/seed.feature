@@ -1,7 +1,7 @@
-Feature: Required data seeding
+Feature: Data seeding
     In order to have products and discounts available in the application
     As an administrator
-    I want to create products and discountsfrom a file
+    I want to create products and discounts from a file
 
     @clear-database
     Scenario: Seeding products from a valid seed file

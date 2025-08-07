@@ -29,7 +29,7 @@ class ProductOutputBuilder
         return new ProductOutput(
             $product->getSku(),
             $product->getName(),
-            $product->getCategory(),
+            $product->getCategory()->getName(),
             new Price($product->getPrice(), $finalPrice, $percent)
         );
     }

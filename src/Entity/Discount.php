@@ -28,6 +28,13 @@ class Discount
     #[ORM\Column]
     private ?int $target_id = null;
 
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+
     public function getPercent(): ?int
     {
         return $this->percent;
@@ -62,5 +69,14 @@ class Discount
     public function setTargetId(?int $target_id): void
     {
         $this->target_id = $target_id;
+    }
+
+    public function isApplicable(Product $product): bool
+    {
+        if ($this->getTargetType() === self::TARGET_TYPE_PRODUCT && $this->getTargetId() === $product->getId()) {
+            return true;
+        }
+
+        return $this->getTargetType() === self::TARGET_TYPE_CATEGORY && $product->getCategory()->getId() === $this->getTargetId();
     }
 }

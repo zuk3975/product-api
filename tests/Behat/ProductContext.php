@@ -27,15 +27,29 @@ final class ProductContext implements Context
     }
 
     /**
-     * @When I get products without filters, limited to 4 I should see the following results:
+     * @When I get products with filters: :filters I should see the following results:
+     * @When I get products without filters I should see the following results:
+     *
      * @param TableNode $table
      */
-    public function getProducts(TableNode $table): void
+    public function getProducts(TableNode $table, string $filters = ''): void
     {
-        $this->client->request('GET', '/api/products');
+        $this->client->request('GET', '/api/products' . ($filters ? '?' . $filters : ''));
+
         $response = $this->client->getResponse();
+        $expected = $table->getHash();
         $data = json_decode($response->getContent(), true);
-        var_dump($data);
+
+        foreach ($expected as $i => $row) {
+            $actual = $data[$i];
+            Assert::assertEquals($row['sku'], $actual['sku']);
+            Assert::assertEquals($row['name'], $actual['name']);
+            Assert::assertEquals($row['category'], $actual['category']);
+            Assert::assertEquals((int) $row['price_original'], (int) $actual['price']['original']);
+            Assert::assertEquals((int) $row['price_final'], (int) $actual['price']['final']);
+            Assert::assertEquals($row['discount_percentage'], $actual['price']['discount_percentage']);
+            Assert::assertEquals($row['currency'], $actual['price']['currency']);
+        }
     }
 
     /**

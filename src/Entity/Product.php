@@ -4,16 +4,31 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use App\DTO\ProductOutput;
 use App\Repository\ProductRepository;
+use App\Service\ProductOutputProvider;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ApiResource(
     operations: [
-        new GetCollection(),
-    ],
-    normalizationContext: ['groups' => ['product:read']],
-    output: ProductOutput::class
+        new GetCollection(
+            paginationEnabled: false,
+            output: ProductOutput::class,
+            provider: ProductOutputProvider::class,
+            parameters: [
+                'limit' => new QueryParameter(
+                    description: 'Limit results. (Maximum: 5)',
+                ),
+                'category' => new QueryParameter(
+                    description: 'Filter by category name',
+                ),
+                'priceLessThan' => new QueryParameter(
+                    description: 'Filter by price less than or equal',
+                ),
+            ]
+        ),
+    ]
 )]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
